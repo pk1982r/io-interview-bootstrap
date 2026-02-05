@@ -27,8 +27,8 @@ lazy val root = (project in file(".")).settings(
 
     // Test
     "org.scalamock" %% "scalamock" % "7.5.3",
-    "com.dimafeng" %% "testcontainers-scala-scalatest" % testcontainersVersion,
-    "com.dimafeng" %% "testcontainers-scala-postgresql" % testcontainersVersion,
+    "com.dimafeng" %% "testcontainers-scala-scalatest" % testcontainersVersion % Test,
+    "com.dimafeng" %% "testcontainers-scala-postgresql" % testcontainersVersion % Test,
     "org.scalatest" %% "scalatest" % "3.2.19" % Test,
     "org.typelevel" %% "cats-effect-testing-scalatest" % "1.7.0" % Test
   ),
