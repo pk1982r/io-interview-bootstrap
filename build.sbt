@@ -9,17 +9,19 @@ name := "io-interview-bootstrap"
 ThisBuild / tpolecatDefaultOptionsMode := VerboseMode
 
 val testcontainersVersion = "0.44.0"
+val doobieVersion = "1.0.0-RC11"
+val catsVersion = "3.6.3"
 
 lazy val root = (project in file(".")).settings(
   name := "interview",
   libraryDependencies ++= Seq(
     // "core" module - IO, IOApp, schedulers
     // This pulls in the kernel and std modules automatically.
-    "org.typelevel" %% "cats-effect" % "3.5.3",
+    "org.typelevel" %% "cats-effect" % catsVersion,
     // concurrency abstractions and primitives (Concurrent, Sync, Async etc.)
-    "org.typelevel" %% "cats-effect-kernel" % "3.5.3",
+    "org.typelevel" %% "cats-effect-kernel" % catsVersion,
     // standard "effect" library (Queues, Console, Random etc.)
-    "org.typelevel" %% "cats-effect-std" % "3.5.3",
+    "org.typelevel" %% "cats-effect-std" % catsVersion,
 
     // FS2
     "co.fs2" %% "fs2-core" % "3.12.0",
@@ -27,6 +29,16 @@ lazy val root = (project in file(".")).settings(
 
     // Logging
     "ch.qos.logback" % "logback-classic" % "1.5.27",
+
+    // DB
+    "org.flywaydb" % "flyway-core" % "11.20.3",
+    "org.flywaydb" % "flyway-database-postgresql" % "11.20.3",
+    "org.postgresql" % "postgresql" % "42.7.9",
+
+    // Doobie
+    "org.tpolecat" %% "doobie-core"      % doobieVersion,
+    "org.tpolecat" %% "doobie-postgres"  % doobieVersion,
+    "org.tpolecat" %% "doobie-hikari"    % doobieVersion,
 
     // Test
     "org.scalamock" %% "scalamock" % "7.5.3",
