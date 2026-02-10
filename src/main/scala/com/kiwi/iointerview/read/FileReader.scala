@@ -17,8 +17,8 @@ object FileReader {
     readInputStream(resourceStream(name), chunkSize = 8192)
       .through(utf8.decode)
       .through(lines)
-      //.drop(2)
-      //.intersperse("\n")
+      // .drop(2)
+      // .intersperse("\n")
       .compile
       .toList
 }
