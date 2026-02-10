@@ -1,0 +1,27 @@
+package com.kiwi.iointerview.integration
+
+import com.dimafeng.testcontainers.PostgreSQLContainer
+import org.flywaydb.core.Flyway
+
+object FlywayTestMigration {
+
+  def migrate(pgContainer: PostgreSQLContainer): Unit = {
+    val flyway =
+      Flyway
+        .configure()
+        .dataSource(
+          pgContainer.jdbcUrl,
+          pgContainer.username,
+          pgContainer.password
+        )
+        .locations(
+          "classpath:db/migration",
+          "classpath:db/test_migration"
+        )
+        .cleanDisabled(false) // enable clean ONLY in tests
+        .load()
+
+    flyway.clean()
+    val _ = flyway.migrate()
+  }
+}
