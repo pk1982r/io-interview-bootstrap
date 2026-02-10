@@ -1,4 +1,4 @@
-package com.example.read
+package com.kiwi.iointerview.read
 
 import com.dimafeng.testcontainers.DockerComposeContainer
 import com.dimafeng.testcontainers.PostgreSQLContainer
