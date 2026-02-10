@@ -13,7 +13,7 @@ import org.scalatest.freespec.AsyncFreeSpec
 import org.scalatest.matchers.should.Matchers
 
 trait TwoPgIntegrationTest
-  extends AsyncFreeSpec
+    extends AsyncFreeSpec
     with AsyncIOSpec
     with TestContainersForAll
     with Matchers {
@@ -32,16 +32,15 @@ trait TwoPgIntegrationTest
   }
 
   private def transactor(
-                          c: PostgreSQLContainer
-                        ): Resource[IO, HikariTransactor[IO]] =
+      c: PostgreSQLContainer
+  ): Resource[IO, HikariTransactor[IO]] =
     Database.transactor(c.jdbcUrl, c.username, c.password)
 
   def withTransactors(
-                       test: (HikariTransactor[IO], HikariTransactor[IO]) => IO[Assertion]
-                     ): IO[Assertion] =
+      test: (HikariTransactor[IO], HikariTransactor[IO]) => IO[Assertion]
+  ): IO[Assertion] =
     withContainers { case a and b =>
-      (transactor(a), transactor(b))
-        .tupled
+      (transactor(a), transactor(b)).tupled
         .use { case (xa, xb) => test(xa, xb) }
     }
 }

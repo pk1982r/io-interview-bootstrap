@@ -20,7 +20,11 @@ class ContainerExampleSpec extends AnyFlatSpec with TestContainersForAll {
     val container2 = PostgreSQLContainer.Def().start()
     val container3 =
       DockerComposeContainer
-        .Def(DockerComposeContainer.ComposeFile(Left(new File("docker-compose.yml"))))
+        .Def(
+          DockerComposeContainer.ComposeFile(
+            Left(new File("docker-compose.yml"))
+          )
+        )
         .start()
     container2 and container3
   }

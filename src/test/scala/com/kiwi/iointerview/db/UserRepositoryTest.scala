@@ -1,6 +1,9 @@
 package com.kiwi.iointerview.db
 
-import com.kiwi.iointerview.integration.{TestUserRepository, TwoPgIntegrationTest}
+import com.kiwi.iointerview.integration.{
+  TestUserRepository,
+  TwoPgIntegrationTest
+}
 import com.kiwi.iointerview.model.User
 import com.kiwi.iointerview.userFromId
 import doobie.implicits.toConnectionIOOps

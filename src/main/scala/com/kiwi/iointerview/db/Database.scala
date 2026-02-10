@@ -7,10 +7,10 @@ import doobie.util.ExecutionContexts
 object Database {
 
   def transactor(
-                  jdbcUrl: String,
-                  user: String,
-                  password: String
-                ): Resource[IO, HikariTransactor[IO]] =
+      jdbcUrl: String,
+      user: String,
+      password: String
+  ): Resource[IO, HikariTransactor[IO]] =
     for
       te <- ExecutionContexts.cachedThreadPool[IO]
       xa <- HikariTransactor.newHikariTransactor[IO](
@@ -18,7 +18,7 @@ object Database {
         jdbcUrl,
         user,
         password,
-        te,
+        te
       )
     yield xa
 }

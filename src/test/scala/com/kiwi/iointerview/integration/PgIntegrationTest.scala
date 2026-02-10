@@ -10,7 +10,11 @@ import org.scalatest.Assertion
 import org.scalatest.freespec.AsyncFreeSpec
 import org.scalatest.matchers.should.Matchers
 
-trait PgIntegrationTest extends AsyncFreeSpec with AsyncIOSpec with TestContainersForAll with Matchers {
+trait PgIntegrationTest
+    extends AsyncFreeSpec
+    with AsyncIOSpec
+    with TestContainersForAll
+    with Matchers {
   override type Containers = PostgreSQLContainer
 
   override def startContainers(): PostgreSQLContainer = {
@@ -21,9 +25,17 @@ trait PgIntegrationTest extends AsyncFreeSpec with AsyncIOSpec with TestContaine
     container
   }
 
-  private def getTransactor(container: PostgreSQLContainer): Resource[IO, HikariTransactor[IO]] = Database.transactor(container.jdbcUrl, container.username, container.password)
+  private def getTransactor(
+      container: PostgreSQLContainer
+  ): Resource[IO, HikariTransactor[IO]] = Database.transactor(
+    container.jdbcUrl,
+    container.username,
+    container.password
+  )
 
-  def withTransactor(pgTest: HikariTransactor[IO] => IO[Assertion]): IO[Assertion] =
+  def withTransactor(
+      pgTest: HikariTransactor[IO] => IO[Assertion]
+  ): IO[Assertion] =
     withContainers { c =>
       getTransactor(c).use(pgTest)
     }
