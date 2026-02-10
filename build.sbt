@@ -1,6 +1,6 @@
 import org.typelevel.sbt.tpolecat.*
 
-ThisBuild / organization := "com.example"
+ThisBuild / organization := "com.kiwi"
 ThisBuild / scalaVersion := "3.4.0"
 name := "io-interview-bootstrap"
 

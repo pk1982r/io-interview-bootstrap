@@ -1,4 +1,4 @@
-package com.example.read
+package com.kiwi.iointerview.read
 
 import cats.effect.{IO, Resource}
 import fs2.io.readInputStream
