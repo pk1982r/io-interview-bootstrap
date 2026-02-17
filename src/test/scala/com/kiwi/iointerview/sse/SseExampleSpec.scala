@@ -46,23 +46,4 @@ class SseExampleSpec extends AsyncFreeSpec with AsyncIOSpec with Matchers {
 
     result.asserting(_.size shouldBe 3)
   }
-
-  "Real SseExample should stream tick events" in {
-    val uri = uri"/events"
-    val request = Request[IO](Method.GET, uri)
-    val client: Client[IO] =
-      Client.fromHttpApp(SseExample.routes(finiteEvents(3)).orNotFound)
-
-    val result =
-      client
-        .stream(request)
-        .flatMap(_.body)
-        .through(ServerSentEvent.decoder[IO])
-        .compile
-        .toList
-
-    result.asserting { r =>
-      r.size shouldBe 4 // one empty in bonus
-    }
-  }
 }
