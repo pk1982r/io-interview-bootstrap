@@ -11,41 +11,58 @@ ThisBuild / tpolecatDefaultOptionsMode := VerboseMode
 val testcontainersVersion = "0.44.0"
 val doobieVersion = "1.0.0-RC11"
 val catsVersion = "3.6.3"
+val http4sVersion = "1.0.0-M45"
+val circeVersion = "0.14.15"
 
-lazy val root = (project in file(".")).settings(
-  name := "interview",
-  libraryDependencies ++= Seq(
-    // "core" module - IO, IOApp, schedulers
-    // This pulls in the kernel and std modules automatically.
-    "org.typelevel" %% "cats-effect" % catsVersion,
-    // concurrency abstractions and primitives (Concurrent, Sync, Async etc.)
-    "org.typelevel" %% "cats-effect-kernel" % catsVersion,
-    // standard "effect" library (Queues, Console, Random etc.)
-    "org.typelevel" %% "cats-effect-std" % catsVersion,
+lazy val root = (project in file("."))
+  .settings(
+    name := "interview",
+    libraryDependencies ++= Seq(
+      // "core" module - IO, IOApp, schedulers
+      // This pulls in the kernel and std modules automatically.
+      "org.typelevel" %% "cats-effect" % catsVersion,
+      // concurrency abstractions and primitives (Concurrent, Sync, Async etc.)
+      "org.typelevel" %% "cats-effect-kernel" % catsVersion,
+      // standard "effect" library (Queues, Console, Random etc.)
+      "org.typelevel" %% "cats-effect-std" % catsVersion,
 
-    // FS2
-    "co.fs2" %% "fs2-core" % "3.12.0",
-    "co.fs2" %% "fs2-io" % "3.12.0",
+      // http4s
+      "org.http4s" %% "http4s-ember-client" % http4sVersion,
+      "org.http4s" %% "http4s-ember-server" % http4sVersion,
+      "org.http4s" %% "http4s-dsl" % http4sVersion,
+      "org.http4s" %% "http4s-circe" % http4sVersion,
 
-    // Logging
-    "ch.qos.logback" % "logback-classic" % "1.5.27",
+      // Circe
+      "io.circe" %% "circe-core" % circeVersion,
+      "io.circe" %% "circe-generic" % circeVersion,
+      "io.circe" %% "circe-parser" % circeVersion,
 
-    // DB
-    "org.flywaydb" % "flyway-core" % "11.20.3",
-    "org.flywaydb" % "flyway-database-postgresql" % "11.20.3",
-    "org.postgresql" % "postgresql" % "42.7.9",
+      // FS2
+      "co.fs2" %% "fs2-core" % "3.12.0",
+      "co.fs2" %% "fs2-io" % "3.12.0",
 
-    // Doobie
-    "org.tpolecat" %% "doobie-core"      % doobieVersion,
-    "org.tpolecat" %% "doobie-postgres"  % doobieVersion,
-    "org.tpolecat" %% "doobie-hikari"    % doobieVersion,
+      // Logging
+      "ch.qos.logback" % "logback-classic" % "1.5.27",
+      "org.typelevel" %% "log4cats-slf4j" % "2.7.0",
 
-    // Test
-    "org.scalamock" %% "scalamock" % "7.5.3",
-    "com.dimafeng" %% "testcontainers-scala-scalatest" % testcontainersVersion % Test,
-    "com.dimafeng" %% "testcontainers-scala-postgresql" % testcontainersVersion % Test,
-    "org.scalatest" %% "scalatest" % "3.2.19" % Test,
-    "org.typelevel" %% "cats-effect-testing-scalatest" % "1.7.0" % Test
-  ),
-  Compile / mainClass := Some("com.example.Main")
-).enablePlugins(JavaAppPackaging)
+      // DB
+      "org.flywaydb" % "flyway-core" % "11.20.3",
+      "org.flywaydb" % "flyway-database-postgresql" % "11.20.3",
+      "org.postgresql" % "postgresql" % "42.7.9",
+
+      // Doobie
+      "org.tpolecat" %% "doobie-core" % doobieVersion,
+      "org.tpolecat" %% "doobie-postgres" % doobieVersion,
+      "org.tpolecat" %% "doobie-hikari" % doobieVersion,
+
+      // Test
+      "org.scalamock" %% "scalamock" % "7.5.3",
+      "com.dimafeng" %% "testcontainers-scala-scalatest" % testcontainersVersion % Test,
+      "com.dimafeng" %% "testcontainers-scala-postgresql" % testcontainersVersion % Test,
+      "org.scalatest" %% "scalatest" % "3.2.19" % Test,
+      "org.typelevel" %% "cats-effect-testing-scalatest" % "1.7.0" % Test,
+      "org.typelevel" %% "cats-effect-testkit" % catsVersion % Test
+    ),
+    Compile / mainClass := Some("com.example.Main")
+  )
+  .enablePlugins(JavaAppPackaging)
