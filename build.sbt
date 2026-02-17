@@ -30,7 +30,7 @@ lazy val root = (project in file("."))
       "org.http4s" %% "http4s-ember-client" % http4sVersion,
       "org.http4s" %% "http4s-ember-server" % http4sVersion,
       "org.http4s" %% "http4s-dsl" % http4sVersion,
-      "org.http4s" %% "http4s-circe"% http4sVersion,
+      "org.http4s" %% "http4s-circe" % http4sVersion,
 
       // Circe
       "io.circe" %% "circe-core" % circeVersion,
@@ -43,6 +43,7 @@ lazy val root = (project in file("."))
 
       // Logging
       "ch.qos.logback" % "logback-classic" % "1.5.27",
+      "org.typelevel" %% "log4cats-slf4j" % "2.7.0",
 
       // DB
       "org.flywaydb" % "flyway-core" % "11.20.3",
@@ -59,7 +60,8 @@ lazy val root = (project in file("."))
       "com.dimafeng" %% "testcontainers-scala-scalatest" % testcontainersVersion % Test,
       "com.dimafeng" %% "testcontainers-scala-postgresql" % testcontainersVersion % Test,
       "org.scalatest" %% "scalatest" % "3.2.19" % Test,
-      "org.typelevel" %% "cats-effect-testing-scalatest" % "1.7.0" % Test
+      "org.typelevel" %% "cats-effect-testing-scalatest" % "1.7.0" % Test,
+      "org.typelevel" %% "cats-effect-testkit" % catsVersion % Test
     ),
     Compile / mainClass := Some("com.example.Main")
   )
