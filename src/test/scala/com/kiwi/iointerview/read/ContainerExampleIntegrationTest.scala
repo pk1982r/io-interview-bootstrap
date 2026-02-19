@@ -1,14 +1,16 @@
 package com.kiwi.iointerview.read
 
-import com.dimafeng.testcontainers.DockerComposeContainer
-import com.dimafeng.testcontainers.PostgreSQLContainer
+import com.dimafeng.testcontainers.{DockerComposeContainer, PostgreSQLContainer}
 import com.dimafeng.testcontainers.lifecycle.and
 import com.dimafeng.testcontainers.scalatest.TestContainersForAll
 import org.scalatest.flatspec.AnyFlatSpec
+
 import java.io.File
 
 // First of all, you need to declare, which containers you want to use
-class ContainerExampleSpec extends AnyFlatSpec with TestContainersForAll {
+class ContainerExampleIntegrationTest
+    extends AnyFlatSpec
+    with TestContainersForAll {
 
   // First of all, you need to declare, which containers you want to use
   override type Containers = PostgreSQLContainer and DockerComposeContainer

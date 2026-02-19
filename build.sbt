@@ -15,6 +15,9 @@ val http4sVersion = "1.0.0-M45"
 val circeVersion = "0.14.15"
 val scalaMockVersion = "7.5.3"
 
+lazy val unitTest        = taskKey[Unit]("Run unit tests only (class names ending with 'Tests')")
+lazy val integrationTest = taskKey[Unit]("Run integration tests only (class names ending with 'IntegrationTest')")
+
 lazy val root = (project in file("."))
   .settings(
     name := "interview",
@@ -66,6 +69,22 @@ lazy val root = (project in file("."))
       "org.typelevel" %% "cats-effect-testkit" % catsVersion % Test,
       "io.circe" %% "circe-literal" % circeVersion % Test
     ),
-    Compile / mainClass := Some("com.example.Main")
+    Compile / mainClass := Some("com.example.Main"),
+
+    // Run only tests whose class name ends with "Test" but NOT "IntegrationTest"
+    unitTest := Def.taskDyn {
+      val names = (Test / definedTestNames).value
+        .filter(n => n.endsWith("Test") && !n.endsWith("IntegrationTest"))
+        .mkString(" ")
+      (Test / testOnly).toTask(s" $names")
+    }.value,
+
+    // Run only tests whose class name ends with "IntegrationTest"
+    integrationTest := Def.taskDyn {
+      val names = (Test / definedTestNames).value
+        .filter(_.endsWith("IntegrationTest"))
+        .mkString(" ")
+      (Test / testOnly).toTask(s" $names")
+    }.value,
   )
   .enablePlugins(JavaAppPackaging)

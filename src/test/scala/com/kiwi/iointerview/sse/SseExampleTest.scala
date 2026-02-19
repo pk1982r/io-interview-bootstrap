@@ -13,7 +13,7 @@ import org.scalatest.matchers.should.Matchers
 import org.typelevel.log4cats.LoggerFactory
 import org.typelevel.log4cats.slf4j.Slf4jFactory
 
-class SseExampleSpec extends AsyncFreeSpec with AsyncIOSpec with Matchers {
+class SseExampleTest extends AsyncFreeSpec with AsyncIOSpec with Matchers {
   given LoggerFactory[IO] = Slf4jFactory.create[IO]
 
   private def finiteEvents(n: Int): Stream[IO, ServerSentEvent] =
