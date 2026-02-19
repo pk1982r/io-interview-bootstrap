@@ -13,6 +13,7 @@ val doobieVersion = "1.0.0-RC11"
 val catsVersion = "3.6.3"
 val http4sVersion = "1.0.0-M45"
 val circeVersion = "0.14.15"
+val scalaMockVersion = "7.5.3"
 
 lazy val root = (project in file("."))
   .settings(
@@ -56,12 +57,14 @@ lazy val root = (project in file("."))
       "org.tpolecat" %% "doobie-hikari" % doobieVersion,
 
       // Test
-      "org.scalamock" %% "scalamock" % "7.5.3",
+      "org.scalamock" %% "scalamock" % scalaMockVersion,
+      "org.scalamock" %% "scalamock-cats-effect" % scalaMockVersion % Test,
       "com.dimafeng" %% "testcontainers-scala-scalatest" % testcontainersVersion % Test,
       "com.dimafeng" %% "testcontainers-scala-postgresql" % testcontainersVersion % Test,
       "org.scalatest" %% "scalatest" % "3.2.19" % Test,
       "org.typelevel" %% "cats-effect-testing-scalatest" % "1.7.0" % Test,
-      "org.typelevel" %% "cats-effect-testkit" % catsVersion % Test
+      "org.typelevel" %% "cats-effect-testkit" % catsVersion % Test,
+      "io.circe" %% "circe-literal" % circeVersion % Test
     ),
     Compile / mainClass := Some("com.example.Main")
   )
