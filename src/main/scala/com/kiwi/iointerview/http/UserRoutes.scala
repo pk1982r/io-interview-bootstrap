@@ -10,6 +10,7 @@ import org.http4s.dsl.io.*
 
 class UserRoutes(userRepository: UserRepository) {
 
+  // TODO validation and maybe Tapir required - will be introduced later
   def routes: HttpRoutes[IO] =
     HttpRoutes.of[IO] { case GET -> Root / "user" / LongVar(id) =>
       userRepository.findById(id).flatMap {

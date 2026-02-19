@@ -78,7 +78,7 @@ class UserRepositoryImpl(xa: Transactor[IO]) extends UserRepository {
       .query[User]
       .option
       .transact(xa)
-      
+
   def findAll: IO[List[User]] =
     sql"""
       SELECT external_id, email, created_at
