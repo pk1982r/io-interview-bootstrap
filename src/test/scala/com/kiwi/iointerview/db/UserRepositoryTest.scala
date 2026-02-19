@@ -12,20 +12,21 @@ import java.time.Instant
 
 class UserRepositoryTest extends TwoPgIntegrationTest {
 
-  import UserRepository.*
-
   "it should have two separate DBs" in withTransactors { (xa, xb) =>
+    val userRepositoryA = new UserRepositoryImpl(xa)
+    val userRepositoryB = new UserRepositoryImpl(xb)
+
     val emailAUser = User("11L", "testA@test.com", Instant.now())
     val emailBUser = User("22L", "testB@test.com", Instant.now())
     for {
-      _ <- insert(emailAUser).transact(xa)
-      _ <- insert(emailBUser).transact(xb)
+      _ <- userRepositoryA.insert(emailAUser)
+      _ <- userRepositoryB.insert(emailBUser)
 
-      userAinA <- findByEmail(emailAUser.email).transact(xa)
-      userBinA <- findByEmail(emailBUser.email).transact(xa)
+      userAinA <- userRepositoryA.findByEmail(emailAUser.email)
+      userBinA <- userRepositoryA.findByEmail(emailBUser.email)
 
-      userAinB <- findByEmail(emailAUser.email).transact(xb)
-      userBinB <- findByEmail(emailBUser.email).transact(xb)
+      userAinB <- userRepositoryB.findByEmail(emailAUser.email)
+      userBinB <- userRepositoryB.findByEmail(emailBUser.email)
     } yield {
       val _ = userAinA.isDefined shouldBe true
       val _ = userAinA.get.email shouldBe emailAUser.email
@@ -41,10 +42,12 @@ class UserRepositoryTest extends TwoPgIntegrationTest {
 
   "it should batch insert using the script" in withTransactors { (xa, xb) =>
     val numberOfUsers = 1000
+    val userRepository = new UserRepositoryImpl(xa)
+
     for {
       _ <- TestUserRepository.truncate.transact(xa)
       users = List.tabulate(numberOfUsers)(_.userFromId)
-      _ <- insertBatch_(users).transact(xa)
+      _ <- userRepository.insertBatch_(users)
       numberOfUsersA <- TestUserRepository.count.transact(xa)
     } yield {
       numberOfUsersA shouldBe numberOfUsers
