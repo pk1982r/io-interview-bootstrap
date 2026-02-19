@@ -10,7 +10,7 @@ import doobie.implicits.toConnectionIOOps
 
 import java.time.Instant
 
-class UserRepositoryTest extends TwoPgIntegrationTest {
+class UserRepositoryIntegrationTest extends TwoPgIntegrationTest {
 
   "it should have two separate DBs" in withTransactors { (xa, xb) =>
     val userRepositoryA = new UserRepositoryImpl(xa)
