@@ -69,7 +69,7 @@ lazy val root = (project in file("."))
       "org.typelevel" %% "cats-effect-testkit" % catsVersion % Test,
       "io.circe" %% "circe-literal" % circeVersion % Test
     ),
-    Compile / mainClass := Some("com.example.Main"),
+    Compile / mainClass := Some("com.kiwi.iointerview.Main"),
 
     // Run only tests whose class name ends with "Test" but NOT "IntegrationTest"
     unitTest := Def.taskDyn {
