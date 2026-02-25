@@ -17,7 +17,7 @@ import org.scalatest.matchers.should.Matchers
 import org.typelevel.log4cats.LoggerFactory
 import org.typelevel.log4cats.slf4j.Slf4jFactory
 
-// TODO integration test will be added
+// TODO tests with failures
 class UserRoutesTest
     extends AsyncFreeSpec
     with AsyncIOSpec

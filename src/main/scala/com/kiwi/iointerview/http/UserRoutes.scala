@@ -25,37 +25,29 @@ class UserRoutes(userRepository: UserRepository) {
       }
     }
 
-  def authRoutes: AuthedRoutes[Either[String, User], IO] =
-    AuthedRoutes.of { case PUT -> Root / "user" / LongVar(id) as authed =>
-      authed match {
-        case Right(user) =>
-          for {
-            out <- userRepository.insert(user)
-            resp <- Ok(out)
-          } yield resp
-        case Left(err) => BadRequest(err)
-      }
+  def authRoutes: AuthedRoutes[Unit, IO] =
+    AuthedRoutes.of { case req @ PUT -> Root / "user" / LongVar(id) as _ =>
+      for {
+        user <- req.req.as[User] // decode exactly once
+        out <- userRepository.insert(user)
+        resp <- Ok(out)
+      } yield resp
     }
 
   // https://http4s.org/v1/docs/auth.html
   private val adminToken = "kiwi_admin@kiwi.com"
 
-  val authUser: Kleisli[OptionT[IO, *], Request[IO], Either[String, User]] =
+  val authUser: Kleisli[OptionT[IO, *], Request[IO], Unit] =
     Kleisli { rq =>
-      val out: IO[Either[String, User]] = for {
-        token <- IO(
-          rq.headers.get(CIString("token")).toRight("Missing token header")
-        )
-        user <- rq.as[User]
-        authResult = token.flatMap { token =>
-          if token.head.value === adminToken then Right(user)
-          else Left("Invalid token")
-        }
-      } yield authResult
-      OptionT.liftF(out)
+      OptionT.fromOption[IO] {
+        rq.headers
+          .get(CIString("token"))
+          .filter(_.head.value === adminToken)
+          .map(_ => ())
+      }
     }
 
-  val middleware: AuthMiddleware[IO, Either[String, User]] =
+  private val middleware: AuthMiddleware[IO, Unit] =
     AuthMiddleware(authUser)
 
   val service: HttpRoutes[IO] =
