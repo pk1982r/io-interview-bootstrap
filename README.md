@@ -9,6 +9,28 @@ To show best practices using non-trivial examples.
 ## How to use
 Look for interesting technology and corresponding tests demonstrating how to use it.
 
+## Demonstrated technologies
+- Scala 3
+- Cats Effect 3
+- HTTP4s
+  - Authorization middleware
+  - Server Side Events
+  - Server
+  - Client
+- Doobie
+- Flyway
+  - Test DB support
+- Circe
+- ScalaTest
+  - Cats Effect IO tests without unsafe run
+- ScalaMock
+  - loan fixture pattern
+- Testcontainers
+  - Integration tests
+- GitHub Actions
+  - unit and integration tests separation
+  - code formatting check
+
 ## Run application
 Running an application is also possible because this is another interview question.
 
