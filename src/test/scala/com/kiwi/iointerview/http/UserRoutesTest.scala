@@ -47,6 +47,17 @@ class UserRoutesTest
     } yield response.status.code shouldBe 404
   }
 
+  "it should response in case of error from DB" in withStub { stubUserRepository =>
+    val userRoutes = new UserRoutes(stubUserRepository)
+    val req = Request[IO](Method.GET, uri"/user/1")
+    for {
+      _ <- stubUserRepository.findById.raisesErrorWith(new Throwable("DB error"))
+      response <- userRoutes.routes.orNotFound(req)
+    } yield response.status.code shouldBe 500
+  }
+
+  // TODO "it should response in case of timeout from DB"
+
   def withStub(test: Stub[UserRepository] => IO[Assertion]): IO[Assertion] = {
     val stubUserRepository = stub[UserRepository]
     test(stubUserRepository)
